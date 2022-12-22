@@ -297,6 +297,9 @@ public class JdbcUtils {
                     throw DbException.toSQLException(e);
                 }
             } else if (javax.naming.Context.class.isAssignableFrom(d)) {
+                if (!url.startsWith("java:")) {
+                    throw new SQLException("Only java scheme is supported for JNDI lookups", "08001");
+                }
                 // JNDI context
                 try {
                     Context context = (Context) d.newInstance();

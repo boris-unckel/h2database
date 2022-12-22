@@ -510,6 +510,13 @@ public class TestTools extends TestBase {
                 JdbcUtils.getDriver("jdbc:postgresql:test"));
         assertEquals(null,
                 JdbcUtils.getDriver("jdbc:unknown:test"));
+        try {
+            JdbcUtils.getConnection("javax.naming.InitialContext", "ldap://localhost/ds", "sa", "");
+            fail("Expected SQLException: 08001");
+        } catch (SQLException e) {
+            assertEquals("08001", e.getSQLState());
+            assertEquals("Only java scheme is supported for JNDI lookups", e.getMessage());
+        }
     }
 
     private void testWrongServer() throws Exception {
