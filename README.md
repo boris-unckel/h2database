@@ -1,4 +1,8 @@
-# Welcome to H2, the Java SQL database. [![Build Status](https://travis-ci.org/h2database/h2database.svg?branch=master)](https://travis-ci.org/h2database/h2database)
+# Welcome to H2, the Java SQL database. 
+
+This is a fork of https://github.com/h2database/h2database from https://h2database.com/
+
+Changes documented here: h2/src/docsrc/html/changelog.html
 
 ## The main features of H2 are:
 
