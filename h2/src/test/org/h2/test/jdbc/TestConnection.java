@@ -6,6 +6,7 @@
 package org.h2.test.jdbc;
 
 import org.h2.api.ErrorCode;
+import org.h2.jdbc.JdbcConnection;
 import org.h2.test.TestBase;
 import java.sql.Connection;
 import java.sql.SQLClientInfoException;
@@ -39,6 +40,7 @@ public class TestConnection extends TestBase {
         testSetInternalProperty();
         testSetInternalPropertyToInitialValue();
         testSetGetSchema();
+        testCleanUrl();
     }
 
     private void testSetInternalProperty() throws SQLException {
@@ -133,5 +135,29 @@ public class TestConnection extends TestBase {
         assertEquals("otheR_schEma", conn.getSchema());
         s.close();
         conn.close();
+    }
+
+    private void testCleanUrl() {
+        final String BAD1A = "jdbc:h2:mem:1339;IGNORE_UNKNOWN_SETTINGS=TRUE;FORBID_CREATION=FALSE;'";
+        final String BAD1B = "jdbc:h2:mem:1339;ignore_UNKNOWN_SETTINGS=TRUE;FORBID_creaTION=FALSE;'";
+        final String CLEAN1 = "jdbc:h2:mem:1339;'";
+        final String BAD2A = "jdbc:h2:mem:1339;ignore_UNKNOWN_SETTINGS=TRUE;INIT=RUNSCRIPT FROM '~/create.sql'";
+        final String BAD2B = "jdbc:h2:mem:1339;INIT=RUNSCRIPT FROM '~/create.sql';ignore_UNKNOWN_SETTINGS=TRUE";
+        final String BAD2C = "jdbc:h2:mem:1339;FORBID_CREATION=FALSE;INIT=RUNSCRIPT FROM '~/create.sql'";
+        final String BAD2D = "jdbc:h2:mem:1339;INIT=RUNSCRIPT FROM '~/create.sql';FORBID_CREATION=FALSE";
+        final String CLEAN2 = "jdbc:h2:mem:1339;INIT=RUNSCRIPT FROM '~/create.sql'";
+
+        String actual = JdbcConnection.cleanURL(BAD1A);
+        assertEquals(CLEAN1, actual);
+        actual = JdbcConnection.cleanURL(BAD1B);
+        assertEquals(CLEAN1, actual);
+        actual = JdbcConnection.cleanURL(BAD2A);
+        assertEquals(CLEAN2, actual);
+        actual = JdbcConnection.cleanURL(BAD2B);
+        assertEquals(CLEAN2, actual);
+        actual = JdbcConnection.cleanURL(BAD2C);
+        assertEquals(CLEAN2, actual);
+        actual = JdbcConnection.cleanURL(BAD2D);
+        assertEquals(CLEAN2, actual);
     }
 }
