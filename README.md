@@ -1,5 +1,8 @@
-[![CI](h2/src/docsrc/images/h2-logo-2.png)](https://github.com/h2database/h2database/actions?query=workflow%3ACI)
 # Welcome to H2, the Java SQL database.
+
+This is a fork of https://github.com/h2database/h2database from https://h2database.com/
+
+Changes documented here: h2/src/docsrc/html/changelog.html
 
 ## The main features of H2 are:
 
@@ -16,13 +19,15 @@ More information: https://h2database.com
 
 ## Downloads
 
+It's better to try an upgrade to the latest version!
+
 [Download latest version](https://h2database.com/html/download.html) or add to `pom.xml`:
 
 ```XML
 <dependency>
     <groupId>com.h2database</groupId>
     <artifactId>h2</artifactId>
-    <version>2.1.214</version>
+    <version>2.1.x</version>
 </dependency>
 ```
 
@@ -35,6 +40,5 @@ More information: https://h2database.com
 
 ## Support
 
-* [Issue tracker](https://github.com/h2database/h2database/issues) for bug reports and feature requests
-* [Mailing list / forum](https://groups.google.com/g/h2-database) for questions about H2
-* ['h2' tag on Stack Overflow](https://stackoverflow.com/questions/tagged/h2) for other questions (Hibernate with H2 etc.)
+No support, use your own build at your own risk
+
