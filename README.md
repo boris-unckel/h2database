@@ -19,6 +19,8 @@ More information: https://h2database.com
 
 ## Downloads
 
+Check https://github.com/boris-unckel/h2database/releases for fork binaries.
+
 It's better to try an upgrade to the latest version!
 
 [Download latest version](https://h2database.com/html/download.html) or add to `pom.xml`:
@@ -40,5 +42,5 @@ It's better to try an upgrade to the latest version!
 
 ## Support
 
-No support, use your own build at your own risk
+No support, use at your own risk. 
 
