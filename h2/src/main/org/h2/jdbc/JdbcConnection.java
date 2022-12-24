@@ -122,6 +122,10 @@ public class JdbcConnection extends TraceObject implements Connection, JdbcConne
     private static final String NUM_SERVERS = "numServers";
     private static final String PREFIX_SERVER = "server";
 
+    private static final String REGEX_IGNORE_CASE = "(?i)";
+    private static final String IGNORE_UNKNOWN_SETTINGS = ";IGNORE_UNKNOWN_SETTINGS=TRUE";
+    private static final String FORBID_CREATION = ";FORBID_CREATION=FALSE";
+
     private static boolean keepOpenStackTrace;
 
     private final String url;
@@ -149,7 +153,7 @@ public class JdbcConnection extends TraceObject implements Connection, JdbcConne
      * INTERNAL
      */
     public JdbcConnection(String url, Properties info) throws SQLException {
-        this(new ConnectionInfo(url, info), true);
+        this(new ConnectionInfo(cleanURL(url), info), true);
     }
 
     /**
@@ -181,7 +185,7 @@ public class JdbcConnection extends TraceObject implements Connection, JdbcConne
                         + quote(ci.getOriginalURL()) + ", " + quote(user)
                         + ", \"\");");
             }
-            this.url = ci.getURL();
+            this.url = cleanURL(ci.getURL());
             scopeGeneratedKeys = ci.getProperty("SCOPE_GENERATED_KEYS", false);
             closeOld();
             watcher = CloseWatcher.register(this, session, keepOpenStackTrace);
@@ -199,7 +203,7 @@ public class JdbcConnection extends TraceObject implements Connection, JdbcConne
         int id = getNextId(TraceObject.CONNECTION);
         setTrace(trace, TraceObject.CONNECTION, id);
         this.user = clone.user;
-        this.url = clone.url;
+        this.url = cleanURL(clone.url);
         this.catalog = clone.catalog;
         this.commit = clone.commit;
         this.getGeneratedKeys = clone.getGeneratedKeys;
@@ -222,9 +226,18 @@ public class JdbcConnection extends TraceObject implements Connection, JdbcConne
         int id = getNextId(TraceObject.CONNECTION);
         setTrace(trace, TraceObject.CONNECTION, id);
         this.user = user;
-        this.url = url;
+        this.url = cleanURL(url);
         this.scopeGeneratedKeys = false;
         this.watcher = null;
+    }
+
+    public static String cleanURL(final String originalURL) {
+        if (originalURL == null) {
+            return null;
+        }
+        String result = originalURL.replaceAll(REGEX_IGNORE_CASE + IGNORE_UNKNOWN_SETTINGS, "");
+        result = result.replaceAll(REGEX_IGNORE_CASE + FORBID_CREATION, "");
+        return result;
     }
 
     private void closeOld() {
