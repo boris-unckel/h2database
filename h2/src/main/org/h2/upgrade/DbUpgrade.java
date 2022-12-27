@@ -58,7 +58,8 @@ public class DbUpgrade {
             i2.put("password", StringUtils.cloneCharArray((char[]) o));
         }
         info = i2;
-        ConnectionInfo ci = new ConnectionInfo(url, info);
+        String cleanUrl = JdbcConnection.cleanURL(url);
+        ConnectionInfo ci = new ConnectionInfo(cleanUrl, info);
         if (ci.isRemote() || !ci.isPersistent()) {
             return null;
         }
