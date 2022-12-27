@@ -15,7 +15,7 @@ public class Constants {
     /**
      * The build date is updated for each public release.
      */
-    public static final String BUILD_DATE = "2022-12-23";
+    public static final String BUILD_DATE = "2022-12-27";
 
     /**
      * The build date of the last stable release.
@@ -43,7 +43,7 @@ public class Constants {
      * Additionally, a version number should be set to distinguish releases.
      * Example: ACME_SVN1651_BUILD3
      */
-    public static final String BUILD_VENDOR_AND_VERSION = "XF01213_BUILD1";
+    public static final String BUILD_VENDOR_AND_VERSION = "XF01213_BUILD2";
 
     /**
      * The TCP protocol version number 8.
